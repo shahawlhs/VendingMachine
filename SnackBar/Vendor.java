@@ -33,7 +33,7 @@ public class Vendor
 
     /**
      * Sets the quantity of items in stock.
-     * @param qty number of items to place in stock (int)
+     * @param stock number of items to place in stock (int)
      */
 
 
@@ -56,12 +56,12 @@ public class Vendor
     /**
      * Adds a specified amount (in cents) to the
      * deposited amount.
-     * @param number of cents to add to the deposit (int)
+     * @param d of cents to add to the deposit (int)
      */
     public void addMoney(int d)
     {
         //You need to complete this using mutator
-        deposit = d;
+        deposit += d;
     }
 
     /**
@@ -87,11 +87,14 @@ public class Vendor
         //create the makesale method
         if(stock > 0 && deposit >= price){
             stock--;
-            change = deposit - price;
+            change += deposit - price;
+            totalSales += price;
+            deposit = 0;
             return true;
         }
         else {
-            change = deposit;
+            change += deposit;
+            deposit = 0;
             return false;
         }
     }
@@ -103,8 +106,8 @@ public class Vendor
      */
     public int getChange()
     {
-        int c=change;
-        change=0;
+        int c = change;
+        change = 0;
         return c;
     }
 
@@ -114,9 +117,13 @@ public class Vendor
         /*
         note that the coin class has a .getQuarters(), a .getDimes() etc etc (use the coin class!)
         */
-        
+        Coins returnChange = new Coins(change);
+        int quarters = returnChange.getQuarters();
+        int dimes = returnChange.getDimes();
+        int nickles = returnChange.getNickles();
+        int pennies = returnChange.getPennies();
 
-        String changeString="";
+        String changeString= quarters + "Q, " + dimes + "D, " + nickles + "N, " + pennies + "P";
 
         return changeString;
     }
@@ -130,5 +137,9 @@ public class Vendor
     public static double getTotalSales()
     {
         //complete this
+        double temp = totalSales;
+        temp /= 100;
+        totalSales = 0.0;
+        return temp;
     }
 }
